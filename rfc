@@ -1,0 +1,52 @@
+#!/bin/bash
+
+########################################
+#                Help page             #
+########################################
+usage="Usage: $(basename "$0") [number | protocol] [--help] [-l ?search]
+Retrieve RFC for given number or well-known port.
+
+where:
+	number		number denoting the RFC
+	protocol	well known protocol for which to retrieve RFC, e.g. http
+	-h			show this help text
+	-l			list possible RFCs, optional argument to search in the RFCs.
+"
+
+list_source="https://www.ietf.org/download/rfc-index.txt"
+
+while getopts ':hl' option; do
+	case "$option" in
+		l)	if [[ $2 ]]; then
+				curl $list_source | grep $2 | less
+			else
+				curl $list_source | less
+			fi
+			exit
+			;;
+		*)	echo "$usage"
+			exit
+			;;
+	esac
+done
+
+# Set RFC to the value of the argument.
+rfc=$1
+
+# In case the protocol name is given, get correct RFC number.
+if ! [[ "$1" =~ "^[0-9]+$" ]]; then
+	case "$1" in
+		dns)	rfc=1035	;;
+		ftp)	rfc=959		;;
+		http)	rfc=2616	;;
+		https)	rfc=2818	;;
+		smtp)	rfc=821		;;
+		ssh)	rfc=4253	;;
+		tls)	rfc=5246	;;
+		x509)	rfc=5280	;;
+		*)		curl $list_source | less ; exit ;;
+	esac
+fi
+
+# Find and display correct RFC
+curl "https://www.ietf.org/rfc/rfc"$rfc".txt" | less
