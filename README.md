@@ -7,7 +7,13 @@ Most dependencies are installed by default on most UNIX systems, except the foll
  
 If you experience any problems, check if `bash` and `less` are installed.
 
+## Installation
+Upon installation, run the ./install script, this will move the rfc to the ~/.local/bin directory from which it will be directly accessable.
+
 ## Usage
+When using the installation script, rfc will be directly accessable from anywhere.
+If the installation script was not used, the rfc can be accessed from the directory in which it resides.
+
 ```
 Usage: $(basename "$0") [number | protocol] [--help] [-l ?search]
 Retrieve RFC for given number or well-known port.
