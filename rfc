@@ -33,8 +33,10 @@ done
 # Set RFC to the value of the argument.
 rfc=$1
 
+num_re='^[0-9]+$'
+
 # In case the protocol name is given, get correct RFC number.
-if ! [[ "$1" =~ "^[0-9]+$" ]]; then
+if ! [[ $1 =~ $num_re ]]; then
 	case "$1" in
 		dns)	rfc=1035	;;
 		ftp)	rfc=959		;;
